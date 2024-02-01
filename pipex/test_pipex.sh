@@ -14,6 +14,7 @@ parameters6=("./pipex" "poopoo" "cat" "wc -l" "outfile6.txt")
 parameters7=("./pipex" "${TEST}" "poopoo" "wc -l" "outfile7.txt")
 parameters8=("./pipex" "${TEST}" "cat" "poopdypoo" "outfile8.txt")
 parameters9=("./pipex" "${TEST}" "cat" "wc -w" "outfile9.txt")
+parameters10=("./pipex" "${TEST}" "" "" "outfile10.txt")
 
 perform_test()
 {
@@ -30,13 +31,15 @@ perform_test()
 	"${parameters5[@]}"
 	echo -e "${CYAN}test 6 with invalid first argument (infile)${NC}"
 	"${parameters6[@]}"
-	echo -e "${CYAN}test 7 with invalid second argument (command of child process)${NC}"
+	echo -e "${CYAN}test 7 with invalid second argument (1st command)${NC}"
 	"${parameters7[@]}"
-	echo -e "${CYAN}test 8 with invalid third argument (command of parent process)${NC}"
+	echo -e "${CYAN}test 8 with invalid third argument (2nd command)${NC}"
 	"${parameters8[@]}"
 	touch outfile9.txt && chmod 0111 outfile9.txt
 	echo -e "${CYAN}test 9 with outfile open error${NC}"
 	"${parameters9[@]}"
+	echo -e "${CYAN}test 10 with an empty string as a command argument${NC}"
+	"${parameters10[@]}"
 	echo -e "${RED}------CHECKING-OUTPUT-FILES------${NC}"
 	echo -e "${CYAN}outfile1.txt:${NC}" && cat outfile1.txt
 	echo -e "${CYAN}outfile2.txt:${NC}" && cat outfile2.txt
@@ -45,6 +48,7 @@ perform_test()
 	echo -e "${CYAN}outfile7.txt:${NC}" && cat outfile7.txt
 	echo -e "${CYAN}outfile8.txt:${NC}" && cat outfile8.txt
 	echo -e "${CYAN}outfile9.txt:${NC}" && chmod 0644 outfile9.txt && cat outfile9.txt
+	echo -e "${CYAN}outfile10.txt:${NC}" && cat outfile10.txt
 	echo -e "${RED}------END-OF-TEST------${NC}"
 }
 
@@ -58,6 +62,7 @@ remove_files()
 	rm outfile7.txt
 	rm outfile8.txt
 	chmod 0777 outfile9.txt && rm outfile9.txt
+	rm outfile10.txt
 }
 
 if [ "$1" == "remove" ]; then
